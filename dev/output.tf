@@ -30,3 +30,4 @@ output "db_info" {
   value = module.mysql
 
 }
+
