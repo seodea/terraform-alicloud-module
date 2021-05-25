@@ -737,7 +737,7 @@ VPC, vSwitch, ECS, SG, SLB, RDS를 모두 생성을 하는데 총 42개가 추�
 
 서비스 생성을 하기위해서는 terraform apply를 진행해야 합니다. "yes"를 기입을 하면 설치가 진행됩니다.
 
-```json
+```
 ...
 
 Plan: 42 to add, 0 to change, 0 to destroy.
@@ -753,7 +753,7 @@ Do you want to perform these actions?
 
 정상적으로 설치가 끝나면, [output.tf](http://output.tf)에 기입한 내용이 출력이되면서 확인이 가능합니다. output.tf 파일에 보다 자세한 내용을 기입을 하면 console에 접속을 하지 않더라도 바로 접속이 가능합니다.
 
-```json
+```
 ...
 
 module.mysql.alicloud_db_account_privilege.this[0]: Creating...
