@@ -34,19 +34,19 @@ Terraform의 경우 폴더 단위가 하나의 Module로 인식을 하고 관리
 
 현재 테스트 환경에서는 아래와 같이 폴더를 나누어 놨습니다.
 
-```json
-**- dev : 메인 폴더**
-  **ㄴ main_v2.tf : 메인 변수 terraform 파일
+```
+- dev : 메인 폴더
+  ㄴ main_v2.tf : 메인 변수 terraform 파일
   ㄴ config.tf : terraform 접속 계정 정보 파일(실사용에선 환경변수 추천)
-  ㄴ output.tf : terraform output 파일** 
+  ㄴ output.tf : terraform output 파일
   ㄴ v1.0 : 버전 관리용 폴더
   ㄴ v2.0 : 버전 관리용 폴더
-**- modules : terraform code 저장 폴더**
-  **ㄴ ecs : ecs 생성 code 저장 폴더
+- modules : terraform code 저장 폴더
+  ㄴ ecs : ecs 생성 code 저장 폴더
   ㄴ rds : rds 생성 code 저장 폴더
   ㄴ sg : sg 생성 code 저장 폴더
   ㄴ slb : slb 생성 code 저장 폴더
-  ㄴ vpc : vpc 생성 code 저장 폴더**
+  ㄴ vpc : vpc 생성 code 저장 폴더
 ```
 
 dev 폴더는 원하는 서비스를 생성하기 위한 변수를 저장하고 있습니다. modules 폴더는 module에서 사용하는 각 서비스 생성 코드를 저장하고 있습니다.
