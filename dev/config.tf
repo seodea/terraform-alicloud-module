@@ -3,4 +3,3 @@ provider "alicloud" {
   secret_key = "Your Ali Access Key"
   region     = "cn-shanghai"
 }
-
