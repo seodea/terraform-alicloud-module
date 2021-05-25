@@ -751,7 +751,7 @@ Do you want to perform these actions?
 
 - 완료
 
-정상적으로 설치가 끝나면, [output.tf](http://output.tf)에 기입한 내용이 출력이되면서 확인이 가능합니다. output.tf 파일에 보다 자세한 내용을 기입을 하면 console에 접속을 하지 않더라도 바로 접속이 가능합니다.
+정상적으로 설치가 끝나면, output.tf에 기입한 내용이 출력이되면서 확인이 가능합니다. output.tf 파일에 보다 자세한 내용을 기입을 하면 console에 접속을 하지 않더라도 바로 접속이 가능합니다.
 
 ```
 ...
