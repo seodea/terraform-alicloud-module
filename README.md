@@ -57,7 +57,7 @@ Terraform code에서 제공하는 Local 변수를 이용하면 여러번 사용�
 
 인스턴스를 생성을 할 때, 가장 많이 사용을 하게되는 region, zone, subnet에 대한 정보를 locals로 처리했습니다.
 
-```json
+```
 locals {
   region = "cn-shanghai"
   azs    = ["cn-shanghai-a", "cn-shanghai-b"]
