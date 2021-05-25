@@ -74,7 +74,7 @@ locals {
 - 모듈 변수 Code
     - vpc 생성 파일을 위한 Module 코드입니다.
 
-    ```json
+    ```
     # VPC, VSwitch 생성 모듈
 
     module "dev_vpc" {
@@ -147,7 +147,7 @@ ECS을 생성 전에 ECS가 사용해야되는 보안그룹을 생성을 합니�
 
         vpc_cidr 변수에 정의한 cidr이 적용됩니다.
 
-    ```json
+    ```
     module "public_sg" {
 
       source = "../modules/sg"
@@ -247,7 +247,7 @@ ECS 인스턴스를 생성을 합니다. 해당 가이드에서는 web용 ECS 2E
 - 모듈 변수 Code
     - ecs Module에 ecs 용도에 맞게 기입 및 변수를 입력을 합니다. ECS 생성코드를 이용해서 생성을 하므로 용도 별로 각각 아래와 같이 사용을 해야합니다.
 
-    ```json
+    ```
     module "web_instances" {
 
       source = "../modules/ecs"
@@ -340,7 +340,7 @@ SLB 인스턴스를 생성을 합니다.
 
 - 모듈 변수 Code
 
-    ```json
+    ```
     module "dev_public_slb" {
       
       source  = "../modules/slb"
@@ -561,7 +561,7 @@ SLB 인스턴스를 생성을 합니다.
 
 - 모듈 변수 Code
 
-    ```json
+    ```
     module "mysql" {
       source = "../modules/rds/"
       region = local.region
@@ -677,7 +677,7 @@ Terraform Module을 실행을 하려면 원하는 인스턴스 정보를 기입�
 
 - terraform plan을 진행합니다.
 
-```json
+```
 [root@sdh-tf-vm dev]# terraform plan
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
