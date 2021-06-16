@@ -4,14 +4,14 @@
    main.tf 경로 수정없이 사용이 가능합니다.
 
 기본 디렉토리 예시
-- tf
-  ㄴ dev
-    ㄴ main.tf
-  ㄴ module
-    ㄴ ecs
-    ㄴ slb
-    ㄴ vpc
-    ㄴ rds
+- tf \
+  ㄴ dev \
+    ㄴ main.tf \
+  ㄴ module \
+    ㄴ ecs \
+    ㄴ slb \
+    ㄴ vpc \
+    ㄴ rds \
     ㄴ sg
      
 
