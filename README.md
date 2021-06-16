@@ -116,7 +116,7 @@ locals {
 
 - 인스턴스 생성 모듈화 코드
 
-[VPC 생성 code 참고](https://www.notion.so/dde66fad655942d9b72b524c677bf960)
+VPC 생성 code 참고 : modules/vpc 폴더 참고
 
 ### STEP 1.2 보안그룹 생성
 
@@ -235,7 +235,7 @@ ECS을 생성 전에 ECS가 사용해야되는 보안그룹을 생성을 합니�
         단, 미기입시 vpc_cidr 값으로 대체. 외부 public IP 경우 필수로 기입
         - description : 설명을 기입
 
-[보안그룹 생성 code 참고](https://www.notion.so/94b0ce02b189487bb249ab303c896cf8)
+보안그룹 생성 code 참고 : modules/sg 폴더 참고
 
 ### STEP 1.3 ECS 인스턴스 생성
 
@@ -330,7 +330,7 @@ ECS 인스턴스를 생성을 합니다. 해당 가이드에서는 web용 ECS 2E
     - ecs_vswitch_id : 사용하고자 하는 vswitch의 리전을 변경. local.azs[0] or "cn-shanghai-a"
     - ecs_sg_id : 미리 생성한 용도의 보안그룹을 선택.  was_sg - 이름을 보안그룹 이름으로 변경
 
-[ECS 생성 code 참고](https://www.notion.so/37355dfabe9f42019765007bef965f20)
+ECS 생성 code 참고 : modules/ecs 폴더 참고
 
 ### STEP 1.4 SLB 인스턴스 생성
 
@@ -552,7 +552,7 @@ SLB 인스턴스를 생성을 합니다.
 - ssl_certificates : 인증서 사용관련 변수 기입
     - tls_cipher_policy : 기존에 등록한 인증서 있을 경우 선택
 
-[보안그룹 생성 code 참고](https://www.notion.so/97c76f2a891743cb83c4c8e8d288a50d)
+SLB 생성 code 참고 : modules/slb 폴더 참고
 
 ### STEP 1.5 RDS 인스턴스 생성
 
@@ -663,7 +663,7 @@ SLB 인스턴스를 생성을 합니다.
         - character_set : 사용할 character_set 선택
         - description : 설명 기입
 
-[RDS 생성 code 참고](https://www.notion.so/d6d500f9663c45ac8a2fcfc219cf768f)
+RDS 생성 code 참고 : modules/rds 폴더 참고
 
 ## STEP 2. Module을 이용하여 배포한 서비스 확인
 
