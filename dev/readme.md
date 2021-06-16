@@ -7,9 +7,9 @@
 ```json
 - tf 
   ㄴ dev 
-      ㄴ main.tf 
+    ㄴ main.tf 
   ㄴ module
-      ㄴ ecs 
+    ㄴ ecs 
     ㄴ slb 
     ㄴ vpc 
     ㄴ rds 
