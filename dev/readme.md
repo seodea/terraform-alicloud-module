@@ -5,7 +5,7 @@
 
 기본 디렉토리 예시
 - tf \
-  ㄴ dev 
+  ㄴ dev \
       ㄴ main.tf \
   ㄴ module
       ㄴ ecs \
