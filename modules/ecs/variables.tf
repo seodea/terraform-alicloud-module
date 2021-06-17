@@ -100,7 +100,7 @@ variable "instance_charge_type" {
 }
 
 variable "system_disk_category" {
-  default = "cloud_efficiency"
+  default = "cloud_ssd"
 }
 
 variable "internet_charge_type" {
