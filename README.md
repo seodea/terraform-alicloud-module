@@ -152,40 +152,40 @@ ECS을 생성 전에 ECS가 사용해야되는 보안그룹을 생성을 합니�
     ```
     module "public_sg" {
 
-    source = "../modules/sg"
+      source = "../modules/sg"
 
-    // 끝에 -sg 가 자동으로 붙습니다.
-    sg_name = "Your public SG Name" 
+      // 끝에 -sg 가 자동으로 붙습니다.
+      sg_name = "Your public SG Name" 
 
-    vpc_id = module.dev_vpc.vpc_id 
-    vpc_cidr = [module.dev_vpc.vpc_cidr_block]
+      vpc_id = module.dev_vpc.vpc_id 
+      vpc_cidr = [module.dev_vpc.vpc_cidr_block]
 
 
-    ingress_ports = [80,443] # Port 정의가 없을 경우, [22,3389]를 기본으로 할당
+      ingress_ports = [80,443] # Port 정의가 없을 경우, [22,3389]를 기본으로 할당
 
-    # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
-    ingress_with_cidr_blocks_and_ports = [
-        {
-          # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
-          ports       = "21,22"
-          protocol    = "tcp"
-          priority    = 1
-          cidr_blocks = "Your IP/32"
-        },
-        {
-          # port의 정의가 없을 경우, ingress_ports에서 정의한 port를 기준으로 할당
-          # protocole 정의가 없을 경우, 기본값인 TCP로 할당
-          protocol    = "tcp"
-          description = "ingress for tcp"
-          cidr_blocks = "0.0.0.0/0"
-        },
-        {
-          # cidr이 정의가 없을 경우 vpc_cidr에서 정의한 cidr을 기준으로 할당
-          protocol    = "icmp"
-          priority    = 2
-          description = "ingress for icmp"
-        }
-      ]
+      # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
+      ingress_with_cidr_blocks_and_ports = [
+          {
+            # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
+            ports       = "21,22"
+            protocol    = "tcp"
+            priority    = 1
+            cidr_blocks = "Your IP/32"
+          },
+          {
+            # port의 정의가 없을 경우, ingress_ports에서 정의한 port를 기준으로 할당
+            # protocole 정의가 없을 경우, 기본값인 TCP로 할당
+            protocol    = "tcp"
+            description = "ingress for tcp"
+            cidr_blocks = "0.0.0.0/0"
+          },
+          {
+            # cidr이 정의가 없을 경우 vpc_cidr에서 정의한 cidr을 기준으로 할당
+            protocol    = "icmp"
+            priority    = 2
+            description = "ingress for icmp"
+          }
+        ]
     }
 
     module "was_sg" {
