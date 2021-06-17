@@ -3,11 +3,11 @@ locals {
 }
  
 resource "alicloud_slb" "slb_instance" {
-  name                 = var.name
+  load_balancer_name   = var.name
   internet_charge_type = var.internet_charge_type
   address_type         = local.address_type
   vswitch_id           = var.vswitch_id
-  specification        = var.specification == "" ? null : var.specification
+  load_balancer_spec   = var.specification == "" ? null : var.specification
   tags                 = var.tags
   master_zone_id       = var.master_zone_id == "" ? null : var.master_zone_id
   slave_zone_id        = var.slave_zone_id == "" ? null : var.slave_zone_id
