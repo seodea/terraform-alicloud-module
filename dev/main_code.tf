@@ -51,7 +51,8 @@ module "public_sg" {
 
 
   ingress_ports = [80,443] # Port 정의가 없을 경우, [22,3389]를 기본으로 할당
-
+  
+  # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
   ingress_with_cidr_blocks_and_ports = [
     {
       # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
@@ -90,6 +91,7 @@ module "was_sg" {
 
   ingress_ports = [80] # Port 정의가 없을 경우, [22,3389]를 기본으로 할당
 
+  # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
   ingress_with_cidr_blocks_and_ports = [
     {
       # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
