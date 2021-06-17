@@ -15,7 +15,7 @@ module "dev_vpc" {
   # VPC이름을 넣어준다. 이 값은 VPC module이 생성하는 모든 리소스 이름의 prefix가 된다
   name = "Your VPC Name"
 
-  # VPC의 CIDR block을 정의한다. subnet과 동일하 대역대 선택
+  # VPC의 CIDR block을 정의한다. 위에 정의한 subnet를 포함하는 대역대를 기입합니다.
   cidr = "Your VPC CIDR"
 
   # VPC가 사용할 AZ를 정의한다.
@@ -40,14 +40,14 @@ module "public_sg" {
   source = "../modules/sg"
   
   // 끝에 -sg 가 자동으로 붙습니다.
-  sg_name = "Your Public SG Name" 
+  sg_name = "Your public SG Name" 
 
   vpc_id = module.dev_vpc.vpc_id 
   vpc_cidr = [module.dev_vpc.vpc_cidr_block]
 
 
   ingress_ports = [80,443] # Port 정의가 없을 경우, [22,3389]를 기본으로 할당
-  
+
   # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
   ingress_with_cidr_blocks_and_ports = [
     {
@@ -78,7 +78,7 @@ module "was_sg" {
   source = "../modules/sg"
 
   // 끝에 -sg 가 자동으로 붙습니다.
-  sg_name = "dev-was"
+  sg_name = "Your WAS SG Name"
 
   vpc_id = module.dev_vpc.vpc_id
   vpc_cidr = [module.dev_vpc.vpc_cidr_block]
@@ -120,17 +120,17 @@ module "web_instances" {
  # ECS Count 선택
   ecs_count = "2"
 
- # ECS Name 입력
-  ecs_name = "Your Web Name"
+ # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
+  ecs_name = "Your Web Server Name"
  
  # PW 입력
-  ecs_password = "Test123!@#"
+  ecs_password = "Your Password"
 
  # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달) 
-  ecs_image = "^centos_7"
+  ecs_image = "Your OS Image"
 
  # ECS type
-  ecs_type = "ecs.n1.medium"
+  ecs_type = "Your ECS Type"
 
  # EIP 수량 선택 (필요하지 않을 경우 0 이나 "" 입력)
   eip_count = "2"
@@ -154,23 +154,26 @@ module "was_instances" {
  # ECS Count 선택
   ecs_count = "2"
 
- # ECS Name 입력- name-01, name-02 순으로 네이밍이 됩니다.
-  ecs_name = "Your WAS Name"
+ # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
+  ecs_name = "Your Was Server Name"
 
  # PW 입력
-  ecs_password = "Test123!@#"
+  ecs_password = "Your Password"
 
  # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달)
-  ecs_image = "^centos_7"
+  ecs_image = "Your OS Image"
 
- # ECS type
-  ecs_type = "ecs.n4.large"
+ # ECS type (예 : ecs.n4.large)
+  ecs_type = "Your ECS Type"
+
+ # EIP 수량 선택 (필요하지 않을 경우 삭제)
+ # eip_count = ""
 
  # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
   disk_size = "40"
 
  # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-  ecs_vswitch_id = lookup(module.dev_vpc.private_info_map, "cn-shanghai-a")
+  ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
  
  # SG 정보
   ecs_sg_id = module.was_sg.sg_id
@@ -308,8 +311,20 @@ module "dev_public_slb" {
   
   // advanced_setting will apply to all of listeners if some fields are not set in the listeners
   advanced_setting = {
+        
+    # TCP의 경우 sticky session setting, "on", "server"
+    #sticky_session      = "on"
+    #sticky_session_type = "server"
+    
+    # http의 경우 sticky session setting, "on", "insert"
+    #sticky_session      = "on"
+    #sticky_session_type = "insert"
+    #cookie_timeout      = "86400"
     
     gzip                = "false"
+    #retrive_slb_ip      = "true"
+    #retrive_slb_id      = "false"
+    #retrive_slb_proto   = "true"
     persistence_timeout = "5"
   }
   
@@ -321,6 +336,7 @@ module "dev_public_slb" {
   }
   
   ssl_certificates = {
+    #tls_cipher_policy = "tls_cipher_policy_1_0"
   }
 }
 
@@ -331,7 +347,7 @@ module "dev_internal_slb" {
   #####
   #  SLB instance
   #####
-  name = "Your Internal SLB Name"
+  name = "Your internal slb Name"
   internet_charge_type = "PayByTraffic" # 기본값 PaybyTraffic
   address_type         = "intranet" # [internet, intranet] 중 선택
   vswitch_id           = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a") # internet일 경우 무시 
@@ -386,8 +402,20 @@ module "dev_internal_slb" {
   
   // advanced_setting will apply to all of listeners if some fields are not set in the listeners
   advanced_setting = {
+        
+    # TCP의 경우 sticky session setting, "on", "server"
+    #sticky_session      = "on"
+    #sticky_session_type = "server"
+    
+    # http의 경우 sticky session setting, "on", "insert"
+    #sticky_session      = "on"
+    #sticky_session_type = "insert"
+    #cookie_timeout      = "86400"
     
     gzip                = "false"
+    #retrive_slb_ip      = "true"
+    #retrive_slb_id      = "false"
+    #retrive_slb_proto   = "true"
     persistence_timeout = "5"
   }
   
@@ -399,5 +427,6 @@ module "dev_internal_slb" {
   }
   
   ssl_certificates = {
+    #tls_cipher_policy = "tls_cipher_policy_1_0"
   }
 }
