@@ -19,18 +19,14 @@ module "dev_vpc" {
   cidr = "172.16.0.0/16"
 
   # VPC가 사용할 AZ를 정의한다.
-  #azs              = ["cn-shanghai-a", "cn-shanghai-b"]
   azs               = local.azs
   # VPC의 Public Subnet CIDR block을 정의한다. (Public 말고 다른 이름으로도 가능.)
-  #public_subnets   = ["172.16.0.0/24","172.16.100.0/24"]
   public_subnets    = local.public_subnets
 
   # VPC의 Private Subnet CIDR block을 정의한다.
-  #private_subnets  = ["172.16.1.0/24","172.16.101.0/24"]
   private_subnets   = local.private_subnets
 
   # VPC의 Private DB Subnet CIDR block을 정의한다. (RDS를 사용하지 않으면 이 라인은 필요없다.)
-  #database_subnets = ["172.16.2.0/24","172.16.102.0/24"]
   database_subnets  = local.database_subnets
 
 # VPC module이 생성하는 모든 리소스에 기본으로 입력될 Tag를 정의한다.
@@ -58,8 +54,7 @@ module "public_sg" {
       ports       = "21,22"
       protocol    = "tcp"
       priority    = 1
-      #cidr_blocks = "172.16.0.0/24,172.16.100.0/24"
-      cidr_blocks = "121.134.158.33/32"
+      cidr_blocks = "0.0.0.0/0"
     }
   ]
 }
@@ -116,7 +111,6 @@ module "web_instances" {
   disk_size = "40"
 
  # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-  #ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a")
   ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
  # SG 정보
   ecs_sg_id = module.public_sg.sg_id
@@ -151,7 +145,7 @@ module "was_instances" {
   disk_size = "40"
 
  # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-  ecs_vswitch_id = lookup(module.dev_vpc.private_info_map, "cn-shanghai-a")
+  ecs_vswitch_id = lookup(module.dev_vpc.private_info_map, local.azs[0])
  
  # SG 정보
   ecs_sg_id = module.was_sg.sg_id
@@ -237,7 +231,7 @@ module "dev_public_slb" {
   name = "public-slb"
   internet_charge_type = "PayByTraffic" # 기본값 PaybyTraffic
   address_type         = "internet" # [internet, intranet] 중 선택
-  vswitch_id           = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a") # internet일 경우 무시 
+  vswitch_id           = lookup(module.dev_vpc.public_info_map, local.azs[0]) # internet일 경우 무시 
   specification        = "slb.s1.small" # 기본값:"slb.s1.small" 나머지 선택 "slb.s2.small", "slb.s2.medium", "slb.s3.small", "slb.s3.medium", "slb.s3.large" and "slb.s4.large"  
   master_zone_id       = local.azs[0]
   slave_zone_id        = local.azs[1]
@@ -291,19 +285,7 @@ module "dev_public_slb" {
   // advanced_setting will apply to all of listeners if some fields are not set in the listeners
   advanced_setting = {
         
-    # TCP의 경우 sticky session setting, "on", "server"
-    #sticky_session      = "on"
-    #sticky_session_type = "server"
-    
-    # http의 경우 sticky session setting, "on", "insert"
-    #sticky_session      = "on"
-    #sticky_session_type = "insert"
-    #cookie_timeout      = "86400"
-    
     gzip                = "false"
-    #retrive_slb_ip      = "true"
-    #retrive_slb_id      = "false"
-    #retrive_slb_proto   = "true"
     persistence_timeout = "5"
   }
   
@@ -315,7 +297,7 @@ module "dev_public_slb" {
   }
   
   ssl_certificates = {
-    #tls_cipher_policy = "tls_cipher_policy_1_0"
+
   }
 }
 
@@ -329,7 +311,7 @@ module "dev_internal_slb" {
   name = "internal-slb"
   internet_charge_type = "PayByTraffic" # 기본값 PaybyTraffic
   address_type         = "intranet" # [internet, intranet] 중 선택
-  vswitch_id           = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a") # internet일 경우 무시 
+  vswitch_id           = lookup(module.dev_vpc.public_info_map, local.azs[0]) # internet일 경우 무시 
   specification        = "slb.s1.small" # 기본값:"slb.s1.small" 나머지 선택 "slb.s2.small", "slb.s2.medium", "slb.s3.small", "slb.s3.medium", "slb.s3.large" and "slb.s4.large"  
   master_zone_id       = local.azs[0]
   slave_zone_id        = local.azs[1]
@@ -382,19 +364,7 @@ module "dev_internal_slb" {
   // advanced_setting will apply to all of listeners if some fields are not set in the listeners
   advanced_setting = {
         
-    # TCP의 경우 sticky session setting, "on", "server"
-    #sticky_session      = "on"
-    #sticky_session_type = "server"
-    
-    # http의 경우 sticky session setting, "on", "insert"
-    #sticky_session      = "on"
-    #sticky_session_type = "insert"
-    #cookie_timeout      = "86400"
-    
     gzip                = "false"
-    #retrive_slb_ip      = "true"
-    #retrive_slb_id      = "false"
-    #retrive_slb_proto   = "true"
     persistence_timeout = "5"
   }
   
@@ -406,6 +376,6 @@ module "dev_internal_slb" {
   }
   
   ssl_certificates = {
-    #tls_cipher_policy = "tls_cipher_policy_1_0"
+   
   }
 }
