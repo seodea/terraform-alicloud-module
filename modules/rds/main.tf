@@ -70,10 +70,10 @@ resource "alicloud_db_database" "this" {
 
 resource "alicloud_db_account" "this" {
   count       = var.create_account && var.account_name != "" ? 1 : 0
-  instance_id   = alicloud_db_instance.rds_instance.id
-  name        = var.account_name
-  password    = var.password
-  type        = var.type
+  db_instance_id   = alicloud_db_instance.rds_instance.id
+  account_name = var.account_name
+  account_password = var.password
+  account_type = var.type
 }
 
 resource "alicloud_db_account_privilege" "this" {
