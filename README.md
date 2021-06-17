@@ -80,31 +80,31 @@ locals {
 
     ```
     module "dev_vpc" {
-  # source는 variables.tf, main.tf, outputs.tf 파일이 위치한 디렉터리 경로를 넣어준다.
-  source = "../modules/vpc"
+    # source는 variables.tf, main.tf, outputs.tf 파일이 위치한 디렉터리 경로를 넣어준다.
+    source = "../modules/vpc"
 
-  # VPC이름을 넣어준다. 이 값은 VPC module이 생성하는 모든 리소스 이름의 prefix가 된다
-  name = "Your VPC Name"
+    # VPC이름을 넣어준다. 이 값은 VPC module이 생성하는 모든 리소스 이름의 prefix가 된다
+    name = "Your VPC Name"
 
-  # VPC의 CIDR block을 정의한다. 위에 정의한 subnet를 포함하는 대역대를 기입합니다.
-  cidr = "Your VPC CIDR"
+    # VPC의 CIDR block을 정의한다. 위에 정의한 subnet를 포함하는 대역대를 기입합니다.
+    cidr = "Your VPC CIDR"
 
-  # VPC가 사용할 AZ를 정의한다.
-  azs               = local.azs
-  # VPC의 Public Subnet CIDR block을 정의한다. (Public 말고 다른 이름으로도 가능.)
-  public_subnets    = local.public_subnets
+    # VPC가 사용할 AZ를 정의한다.
+    azs               = local.azs
+    # VPC의 Public Subnet CIDR block을 정의한다. (Public 말고 다른 이름으로도 가능.)
+    public_subnets    = local.public_subnets
 
-  # VPC의 Private Subnet CIDR block을 정의한다.
-  private_subnets   = local.private_subnets
+    # VPC의 Private Subnet CIDR block을 정의한다.
+    private_subnets   = local.private_subnets
 
-  # VPC의 Private DB Subnet CIDR block을 정의한다. (RDS를 사용하지 않으면 이 라인은 필요없다.)
-  database_subnets  = local.database_subnets
+    # VPC의 Private DB Subnet CIDR block을 정의한다. (RDS를 사용하지 않으면 이 라인은 필요없다.)
+    database_subnets  = local.database_subnets
 
-  # VPC module이 생성하는 모든 리소스에 기본으로 입력될 Tag를 정의한다.
-    tags = {
-      "TerraformManaged" = "true"
+    # VPC module이 생성하는 모든 리소스에 기본으로 입력될 Tag를 정의한다.
+      tags = {
+        "TerraformManaged" = "true"
+      }
     }
-  }
     ```
 
     - source : 코드가 저장되어있는 폴더의 경로를 지정
