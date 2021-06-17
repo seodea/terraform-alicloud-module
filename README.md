@@ -165,27 +165,27 @@ ECS을 생성 전에 ECS가 사용해야되는 보안그룹을 생성을 합니�
 
       # 3개의 항목 중 사용하고자 하는 방식 이외는 꼭 삭제를 해야합니다.
       ingress_with_cidr_blocks_and_ports = [
-          {
-            # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
-            ports       = "21,22"
-            protocol    = "tcp"
-            priority    = 1
-            cidr_blocks = "Your IP/32"
-          },
-          {
-            # port의 정의가 없을 경우, ingress_ports에서 정의한 port를 기준으로 할당
-            # protocole 정의가 없을 경우, 기본값인 TCP로 할당
-            protocol    = "tcp"
-            description = "ingress for tcp"
-            cidr_blocks = "0.0.0.0/0"
-          },
-          {
-            # cidr이 정의가 없을 경우 vpc_cidr에서 정의한 cidr을 기준으로 할당
-            protocol    = "icmp"
-            priority    = 2
-            description = "ingress for icmp"
-          }
-        ]
+        {
+          # 모든 내용 (port, protocol, priority,cidr)이 있을경우, 해당 내용으로 할당
+          ports       = "21,22"
+          protocol    = "tcp"
+          priority    = 1
+          cidr_blocks = "Your IP/32"
+        },
+        {
+          # port의 정의가 없을 경우, ingress_ports에서 정의한 port를 기준으로 할당
+          # protocole 정의가 없을 경우, 기본값인 TCP로 할당
+          protocol    = "tcp"
+          description = "ingress for tcp"
+          cidr_blocks = "0.0.0.0/0"
+        },
+        {
+          # cidr이 정의가 없을 경우 vpc_cidr에서 정의한 cidr을 기준으로 할당
+          protocol    = "icmp"
+          priority    = 2
+          description = "ingress for icmp"
+        }
+      ]
     }
 
     module "was_sg" {
@@ -256,70 +256,70 @@ ECS 인스턴스를 생성을 합니다. 해당 가이드에서는 web용 ECS 2E
     ```
     module "web_instances" {
 
-    source = "../modules/ecs"
-
-     # 기본 type 선택용 Region 선택
-      azs  = local.azs[0]
-     # ECS Count 선택
-      ecs_count = "2"
-
-     # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
-      ecs_name = "Your Web Server Name"
-
-     # PW 입력
-      ecs_password = "Your Password"
-
-     # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달) 
-      ecs_image = "Your OS Image"
-
-     # ECS type
-      ecs_type = "Your ECS Type"
-
-     # EIP 수량 선택 (필요하지 않을 경우 0 이나 "" 입력)
-      eip_count = "2"
-
-     # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
-      disk_size = "40"
-
-     # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-      ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
-     # SG 정보
-      ecs_sg_id = module.public_sg.sg_id
-    }
-
-    module "was_instances" {
-
       source = "../modules/ecs"
 
-     # 기본 type 선택용 Region 선택
-      azs  = local.azs[0]
+       # 기본 type 선택용 Region 선택
+        azs  = local.azs[0]
+       # ECS Count 선택
+        ecs_count = "2"
 
-     # ECS Count 선택
-      ecs_count = "2"
+       # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
+        ecs_name = "Your Web Server Name"
 
-     # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
-      ecs_name = "Your Was Server Name"
+       # PW 입력
+        ecs_password = "Your Password"
 
-     # PW 입력
-      ecs_password = "Your Password"
+       # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달) 
+        ecs_image = "Your OS Image"
 
-     # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달)
-      ecs_image = "Your OS Image"
+       # ECS type
+        ecs_type = "Your ECS Type"
 
-     # ECS type (예 : ecs.n4.large)
-      ecs_type = "Your ECS Type"
+       # EIP 수량 선택 (필요하지 않을 경우 0 이나 "" 입력)
+        eip_count = "2"
 
-     # EIP 수량 선택 (필요하지 않을 경우 삭제)
-     # eip_count = ""
+       # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
+        disk_size = "40"
 
-     # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
-      disk_size = "40"
+       # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
+        ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
+       # SG 정보
+        ecs_sg_id = module.public_sg.sg_id
+      }
 
-     # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-      ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
+      module "was_instances" {
 
-     # SG 정보
-      ecs_sg_id = module.was_sg.sg_id
+        source = "../modules/ecs"
+
+       # 기본 type 선택용 Region 선택
+        azs  = local.azs[0]
+
+       # ECS Count 선택
+        ecs_count = "2"
+
+       # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
+        ecs_name = "Your Was Server Name"
+
+       # PW 입력
+        ecs_password = "Your Password"
+
+       # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달)
+        ecs_image = "Your OS Image"
+
+       # ECS type (예 : ecs.n4.large)
+        ecs_type = "Your ECS Type"
+
+       # EIP 수량 선택 (필요하지 않을 경우 삭제)
+       # eip_count = ""
+
+       # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
+        disk_size = "40"
+
+       # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
+        ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
+
+       # SG 정보
+        ecs_sg_id = module.was_sg.sg_id
     }
     ```
 
@@ -347,30 +347,30 @@ SLB 인스턴스를 생성을 합니다.
     ```
     module "dev_public_slb" {
   
-    source  = "../modules/slb"
+      source  = "../modules/slb"
 
-    #####
-    #  SLB instance
-    #####
-    name = "Your public slb Name"
-    internet_charge_type = "PayByTraffic" # 기본값 PaybyTraffic
-    address_type         = "internet" # [internet, intranet] 중 선택
-    vswitch_id           = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a") # internet일 경우 무시 
-    specification        = "slb.s1.small" # 기본값:"slb.s1.small" 나머지 선택 "slb.s2.small", "slb.s2.medium", "slb.s3.small", "slb.s3.medium", "slb.s3.large" and "slb.s4.large"  
-    master_zone_id       = local.azs[0]
-    slave_zone_id        = local.azs[1]
+      #####
+      #  SLB instance
+      #####
+      name = "Your public slb Name"
+      internet_charge_type = "PayByTraffic" # 기본값 PaybyTraffic
+      address_type         = "internet" # [internet, intranet] 중 선택
+      vswitch_id           = lookup(module.dev_vpc.public_info_map, "cn-shanghai-a") # internet일 경우 무시 
+      specification        = "slb.s1.small" # 기본값:"slb.s1.small" 나머지 선택 "slb.s2.small", "slb.s2.medium", "slb.s3.small", "slb.s3.medium", "slb.s3.large" and "slb.s4.large"  
+      master_zone_id       = local.azs[0]
+      slave_zone_id        = local.azs[1]
 
-    ########################
-    #attach virtual servers#
-    ########################
-    servers_of_virtual_server_group = [
-      {
-        # 여러대 넣을 경우, "i-asd,i-asd"
-        server_ids = lookup(module.web_instances, "ecs_ids")
-        port       = "80"
-        type       = "ecs" # 기본값 ecs, 안적어도 무관
-        weight     = 100 # 기본값 100, 안적어도 무관
-      }
+      ########################
+      #attach virtual servers#
+      ########################
+      servers_of_virtual_server_group = [
+        {
+          # 여러대 넣을 경우, "i-asd,i-asd"
+          server_ids = lookup(module.web_instances, "ecs_ids")
+          port       = "80"
+          type       = "ecs" # 기본값 ecs, 안적어도 무관
+          weight     = 100 # 기본값 100, 안적어도 무관
+        }
     ]
 
 
