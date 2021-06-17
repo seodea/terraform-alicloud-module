@@ -671,8 +671,17 @@ STEP 1에서 Module을 이용해서 배포한 서비스를 하나씩 확인을 �
 
 ### STEP 2.1. Module 실행
 
-Terraform Module을 실행을 하려면 원하는 인스턴스 정보가 기입된 [02.test_code 폴더](https://github.com/seodea/terraform-alicloud-module/tree/main/02.%20test_code)를 다운로드를 합니다. 다운로드 후 해당 폴더에서 "terrafrom plan" 을 실행을 합니다.
-02.test_code/main_code.tf는 미리 vpc 설저 및 보안그룹 등 내용을 기입하였습니다.
+Terraform Module을 실행을 하려면 modules과 test code를 다운을 받아야합니다. 
+linux의 경우 아래와 같이 다운로드 후 사용을 합니다.
+```
+wget https://github.com/seodea/terraform-alicloud-module/archive/refs/heads/main.zip
+unzip main.zip
+cd terraform-alicloud-module-main/02.test_code/
+```
+
+해당 폴더에 있는 main_code.tf에는 바로 사용이 가능하게 변수값이 기입이 되어있습니다.
+만약, 수정이 필요하신 부분이 있으면 최소한으로 수정으로 바로 사용이 가능합니다.
+
 
 - terraform plan을 진행합니다.
 
