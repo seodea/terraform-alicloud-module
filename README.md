@@ -101,9 +101,9 @@ locals {
       database_subnets  = local.database_subnets
 
       # VPC module이 생성하는 모든 리소스에 기본으로 입력될 Tag를 정의한다.
-        tags = {
-          "TerraformManaged" = "true"
-        }
+      tags = {
+        "TerraformManaged" = "true"
+      }
     }
     ```
 
