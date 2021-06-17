@@ -36,7 +36,7 @@ Terraform의 경우 폴더 단위가 하나의 Module로 인식을 하고 관리
 
 ```
 - dev : 메인 폴더
-  ㄴ main_v2.tf : 메인 변수 terraform 파일
+  ㄴ main_code.tf : 메인 변수 terraform 파일
   ㄴ config.tf : terraform 접속 계정 정보 파일(실사용에선 환경변수 추천)
   ㄴ output.tf : terraform output 파일
   ㄴ v1.0 : 버전 관리용 폴더
