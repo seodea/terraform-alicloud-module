@@ -1,7 +1,7 @@
 locals {
   address_type  = var.address_type # "internet" : "intranet"
 }
-
+ 
 resource "alicloud_slb" "slb_instance" {
   name                 = var.name
   internet_charge_type = var.internet_charge_type
