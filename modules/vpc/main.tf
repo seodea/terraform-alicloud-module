@@ -3,7 +3,7 @@
 # VPC
 resource "alicloud_vpc" "this" {
   cidr_block           = var.cidr
-  name                 = var.name
+  vpc_name             = var.name
   
   tags = merge(var.tags, map("Name", format("%s", var.name)))
 }
@@ -14,8 +14,8 @@ resource "alicloud_vswitch" "public" {
 
   vpc_id            = alicloud_vpc.this.id
   cidr_block        = var.public_subnets[count.index]
-  availability_zone = var.azs[count.index]
-  name              = format("%s-public-VS-%s", var.name, var.azs[count.index])
+  zone_id           = var.azs[count.index]
+  vswitch_name      = format("%s-public-VS-%s", var.name, var.azs[count.index])
   tags = merge(var.tags, map("Name", format("%s-public-%s", var.name, var.azs[count.index])))
 }
 
@@ -25,8 +25,8 @@ resource "alicloud_vswitch" "private" {
 
   vpc_id            = alicloud_vpc.this.id
   cidr_block        = var.private_subnets[count.index]
-  availability_zone = var.azs[count.index]
-  name              = format("%s-private-VS-%s", var.name, var.azs[count.index])
+  zone_id           = var.azs[count.index]
+  vswitch_name      = format("%s-private-VS-%s", var.name, var.azs[count.index])
   tags = merge(var.tags, map("Name", format("%s-private-%s", var.name, var.azs[count.index])))
 }
 
@@ -36,9 +36,8 @@ resource "alicloud_vswitch" "database" {
 
   vpc_id            = alicloud_vpc.this.id
   cidr_block        = var.database_subnets[count.index]
-  #cidr_block        = var.database_subnets[count.index] > 0 ? 1 : 0
-  availability_zone = var.azs[count.index]
-  name              = format("%s-database-VS-%s", var.name, var.azs[count.index])
+  zone_id           = var.azs[count.index]
+  vswitch_name      = format("%s-database-VS-%s", var.name, var.azs[count.index])
   tags = merge(var.tags, map("Name", format("%s-db-%s", var.name, var.azs[count.index])))
 }
 
