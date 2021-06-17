@@ -673,7 +673,7 @@ STEP 1에서 Module을 이용해서 배포한 서비스를 하나씩 확인을 �
 
 Terraform Module을 실행을 하려면 원하는 인스턴스 정보를 기입한 [main.tf](http://main.tf) 가 있는 폴더에서 "terrafrom plan" 을 실행을 합니다.
 
-해당 가이드에서는 dev란 폴더에서 실행을 하며, main_v2.tf 파일에 모듈을 실행하는 변수들이 저장되어 있습니다.
+해당 가이드에서는 dev란 폴더에서 실행을 하며, main_code.tf 파일을 수정을 하여 사용을 합니다.
 
 - terraform plan을 진행합니다.
 
