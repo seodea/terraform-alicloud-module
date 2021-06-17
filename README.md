@@ -285,41 +285,41 @@ ECS 인스턴스를 생성을 합니다. 해당 가이드에서는 web용 ECS 2E
         ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
        # SG 정보
         ecs_sg_id = module.public_sg.sg_id
-      }
+    }
 
-      module "was_instances" {
+    module "was_instances" {
 
-        source = "../modules/ecs"
+      source = "../modules/ecs"
 
-       # 기본 type 선택용 Region 선택
-        azs  = local.azs[0]
+     # 기본 type 선택용 Region 선택
+      azs  = local.azs[0]
 
-       # ECS Count 선택
-        ecs_count = "2"
+     # ECS Count 선택
+      ecs_count = "2"
 
-       # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
-        ecs_name = "Your Was Server Name"
+     # ECS Name 입력 - name-01, name-02 순으로 네이밍이 됩니다.
+      ecs_name = "Your Was Server Name"
 
-       # PW 입력
-        ecs_password = "Your Password"
+     # PW 입력
+      ecs_password = "Your Password"
 
-       # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달)
-        ecs_image = "Your OS Image"
+     # ECS Image 선택 (^centos_7의 경우 Centos 7 버전중 최슨으로 전달)
+      ecs_image = "Your OS Image"
 
-       # ECS type (예 : ecs.n4.large)
-        ecs_type = "Your ECS Type"
+     # ECS type (예 : ecs.n4.large)
+      ecs_type = "Your ECS Type"
 
-       # EIP 수량 선택 (필요하지 않을 경우 삭제)
-       # eip_count = ""
+     # EIP 수량 선택 (필요하지 않을 경우 삭제)
+     # eip_count = ""
 
-       # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
-        disk_size = "40"
+     # System disk size 선택 (기본값 window - 40GB, linux - 20GB)
+      disk_size = "40"
 
-       # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
-        ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
+     # vswitch 정보 (vpc 생성 시 map에서 등록한 리전 순으로 0,1)
+      ecs_vswitch_id = lookup(module.dev_vpc.public_info_map, local.azs[0])
 
-       # SG 정보
-        ecs_sg_id = module.was_sg.sg_id
+     # SG 정보
+      ecs_sg_id = module.was_sg.sg_id
     }
     ```
 
@@ -578,72 +578,72 @@ SLB 생성 code 참고 : [modules/slb 폴더 참고](https://github.com/seodea/t
 
     ```
     module "mysql" {
-    source = "../modules/rds/"
-    region = local.region
+      source = "../modules/rds/"
+      region = local.region
 
-    #################
-    # Rds Instance
-    #################
-    engine               = "MySQL"
-    engine_version       = "8.0"
-    instance_type        = "rds.mysql.s2.large"
-    instance_storage     = 20
-    instance_charge_type = "Postpaid"
-    instance_name        = "dev-rds"
-    security_group_ids   = [] 
-    vswitch_id           = lookup(module.dev_vpc.public_info_map, local.azs[0])
-    security_ips         = local.private_subnets
-    master_zone          = local.azs[0]
-    slave_zone           = "auto"
-    tags                 = { 
+      #################
+      # Rds Instance
+      #################
+      engine               = "MySQL"
+      engine_version       = "8.0"
+      instance_type        = "rds.mysql.s2.large"
+      instance_storage     = 20
+      instance_charge_type = "Postpaid"
+      instance_name        = "dev-rds"
+      security_group_ids   = [] 
+      vswitch_id           = lookup(module.dev_vpc.public_info_map, local.azs[0])
+      security_ips         = local.private_subnets
+      master_zone          = local.azs[0]
+      slave_zone           = "auto"
+      tags                 = { 
 
-      created = "Terraform"
+        created = "Terraform"
 
-    }
-
-    #################
-    # Rds Backup policy
-    #################
-    preferred_backup_period     = ["Monday", "Wednesday"]
-    # UTC 영향으로 설정 시간에서 +9:00이 적용받습니다. 
-    // 00:00Z-01:00Z 01:00Z-02:00Z 02:00Z-03:00Z 03:00Z-04:00Z 04:00Z-05:00Z 05:00Z-06:00Z 06:00Z-07:00Z 07:00Z-08:00Z 08:00Z-09:00Z 09:00Z-10:00Z 10:00Z-11:00Z 11:00Z-12:00Z 12:00Z-13:00Z 13:00Z-14:00Z 14:00Z-15:00Z 15:00Z-16:00Z 16:00Z-17:00Z 17:00Z-18:00Z 18:00Z-19:00Z 19:00Z-20:00Z 20:00Z-21:00Z 21:00Z-22:00Z 22:00Z-23:00Z 23:00Z-24:00Z
-
-    preferred_backup_time       = "15:00Z-16:00Z" # 한국시간 00:00-01:00 작업
-    backup_retention_period     = 7
-    log_backup_retention_period = 7
-    #enable_backup_log           = ture
-
-    #################
-    # Rds public endpoint  Connection
-    #################
-    #allocate_public_connection = false
-    #port                       = 13306 # default 3306
-    #connection_prefix          = "dev-rds-demo"
-
-    #################
-    # Rds Database account
-    #################
-    type           = "Normal"
-    privilege      = "ReadWrite" #default ReadOnly
-    account_name   = "megazone"
-    password       = "test123!@#"
-
-    #################
-    # Rds Database
-    #################
-    databases       = [
-      {
-        name = "dbuserv1"
-        character_set = "utf8"
-        description   = "db1"
-      },
-      {
-        name = "dbuserv2"
-        character_set = "utf8"
-        description   = "db2"
       }
-    ]
-  }
+
+      #################
+      # Rds Backup policy
+      #################
+      preferred_backup_period     = ["Monday", "Wednesday"]
+      # UTC 영향으로 설정 시간에서 +9:00이 적용받습니다. 
+      // 00:00Z-01:00Z 01:00Z-02:00Z 02:00Z-03:00Z 03:00Z-04:00Z 04:00Z-05:00Z 05:00Z-06:00Z 06:00Z-07:00Z 07:00Z-08:00Z 08:00Z-09:00Z 09:00Z-10:00Z 10:00Z-11:00Z 11:00Z-12:00Z 12:00Z-13:00Z 13:00Z-14:00Z 14:00Z-15:00Z 15:00Z-16:00Z 16:00Z-17:00Z 17:00Z-18:00Z 18:00Z-19:00Z 19:00Z-20:00Z 20:00Z-21:00Z 21:00Z-22:00Z 22:00Z-23:00Z 23:00Z-24:00Z
+
+      preferred_backup_time       = "15:00Z-16:00Z" # 한국시간 00:00-01:00 작업
+      backup_retention_period     = 7
+      log_backup_retention_period = 7
+      #enable_backup_log           = ture
+
+      #################
+      # Rds public endpoint  Connection
+      #################
+      #allocate_public_connection = false
+      #port                       = 13306 # default 3306
+      #connection_prefix          = "dev-rds-demo"
+
+      #################
+      # Rds Database account
+      #################
+      type           = "Normal"
+      privilege      = "ReadWrite" #default ReadOnly
+      account_name   = "megazone"
+      password       = "test123!@#"
+
+      #################
+      # Rds Database
+      #################
+      databases       = [
+        {
+          name = "dbuserv1"
+          character_set = "utf8"
+          description   = "db1"
+        },
+        {
+          name = "dbuserv2"
+          character_set = "utf8"
+          description   = "db2"
+        }
+      ]
+    }
     ```
 
     - engine : DB 엔진 기입
